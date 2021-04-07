@@ -2,32 +2,64 @@ const fs = require('fs');
 const data = fs.readFileSync('./input.txt', 'utf-8').split('')
 
 // Part 1
-const coord = {
-  x: 0,
-  y: 0,
-}
-const visitedHomes = new Map()
-visitedHomes.set(`${coord.x},${coord.y}`, visitedHomes.get(coord)+1 || 1)
 
-for (dir of data) {
-  switch (dir) {
+class SantaWorker {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+  } 
+
+  move(dir) {
+    switch(dir) {
     case '>':
-      coord.x++
+      this.x++
       break;
-      case '<':
-      coord.x--
+    case '<':
+      this.x--
       break;
-      case '^':
-        coord.y++
+    case '^':
+        this.y++
         break;
     case 'v':
-      coord.y--
+      this.y--
       break;  
-      default:
+    default:
         break;
       }
-      visitedHomes.set(`${coord.x},${coord.y}`, visitedHomes.get(coord)+1 || 1)
     }
+
+  strCoord() {
+    return `${this.x},${this.y}`;
+  }
+}
+
+
+const visitedHomes = new Map();
+const santa = new SantaWorker();
+visitedHomes.set(santa.strCoord(), 1)
+
+for (dir of data) {
+  santa.move(dir)
+  visitedHomes.set(santa.strCoord(), 1)
+}
     
-    console.log('Part 1: ', visitedHomes.size)
-    
+console.log('Part 1: ', visitedHomes.size)
+
+// Part 2
+const homesP2 = new Map()
+const robo = new SantaWorker()
+const santap2 = new SantaWorker()
+homesP2.set(robo.strCoord(), 1)
+homesP2.set(santap2.strCoord(), 1)
+
+data.map((dir,i) => {
+  if (i % 2 === 0) {
+    santap2.move(dir)
+    homesP2.set(santap2.strCoord(), 1)
+  } else {
+    robo.move(dir)
+    homesP2.set(robo.strCoord(), 1)
+  }
+})
+
+console.log('Part 2: ', homesP2.size)
