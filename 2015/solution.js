@@ -21,5 +21,3 @@ const niceStringP2 = data.filter(e => {
 })
 
 console.log('Part 2: ', niceStringP2.length)
-
-// NOt 51
