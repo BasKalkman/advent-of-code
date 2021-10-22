@@ -3,7 +3,7 @@ const data = fs.readFileSync('./input.txt', 'utf-8').split('\n');
 
 const lights = new Array(1000);
 for (let i = 0; i < lights.length; i++) {
-    lights[i] = new Array(1000).fill(false);
+    lights[i] = new Array(1000).fill(0);
 }
 
 // Part 1
@@ -29,13 +29,14 @@ for (let instruction of data) {
         for (let x = xStart; x <= xEnd; x++) {
             switch (instructionType) {
                 case 'ON':
-                    lights[y][x] = true;
+                    lights[y][x] += 1;
                     break;
                 case 'OFF':
-                    lights[y][x] = false;
+                    const newValue = lights[y][x] > 0 ? lights[y][x] - 1 : 0;
+                    lights[y][x] = newValue;
                     break;
                 case 'TOGGLE':
-                    lights[y][x] = !lights[y][x];
+                    lights[y][x] += 2;
                     break;
                 default:
                     break;
@@ -57,4 +58,15 @@ const countLights = () => {
     return counter;
 }
 
-console.log(`Part 1: ${countLights()}`)
+const countLightsValues = () => {
+    let counter = 0;
+    for (let i = 0; i < lights.length; i++) {
+        for (let j = 0; j < lights[i].length; j++) {
+            counter += lights[i][j]
+        }
+    }
+    return counter;
+}
+
+// console.log(`Part 1: ${countLights()}`)
+console.log(`Part 2: ${countLightsValues()}`)
