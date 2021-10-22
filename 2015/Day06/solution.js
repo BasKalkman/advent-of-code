@@ -1,10 +1,12 @@
 const fs = require('fs');
 const data = fs.readFileSync('./input.txt', 'utf-8').split('\n');
 
-const lights = new Array(1000);
-for (let i = 0; i < lights.length; i++) {
-    lights[i] = new Array(1000).fill(0);
-}
+// const lights = new Array(1000);
+// for (let i = 0; i < lights.length; i++) {
+//     lights[i] = new Array(1000).fill(0);
+// }
+
+const lights = new Array(1000).fill(0).map(() => Array(1000).fill(0))
 
 // Part 1
 const getInstructionType = (str) => {
