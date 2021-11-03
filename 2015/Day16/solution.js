@@ -29,7 +29,7 @@ const allSues = data.map(e => {
     return obj;
 })
 
-const mySue = allSues.filter(e => {
+const mySueP1 = allSues.filter(e => {
     for (const key in e) {
         if (known[key] !== e[key] && !String(key).match(/sue/)) {
             return false;
@@ -38,4 +38,33 @@ const mySue = allSues.filter(e => {
     return true;
 })
 
-console.log('Part 1: ', mySue[0]['sue'])
+console.log('Part 1: ', mySueP1[0]['sue'])
+
+// Part 2
+const mySueP2 = allSues.filter(e => {
+    for (const key in e) {
+        switch (key) {
+            case 'sue':
+                break;
+            case 'cats':
+            case 'trees':
+                if (known[key] >= e[key]) {
+                    return false;
+                }
+                break;
+            case 'pomeranians':
+            case 'goldfish':
+                if (known[key] <= e[key]) {
+                    return false;
+                }
+                break;
+            default:
+                if (known[key] !== e[key]) {
+                    return false;
+                }
+                break;
+        }
+    }
+    return true;
+})
+console.log('Part 2: ', mySueP2[0]['sue'])
