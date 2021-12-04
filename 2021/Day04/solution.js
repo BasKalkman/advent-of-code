@@ -50,7 +50,6 @@ const boardScore = (board, calledNumbers) => {
 
 // Run game
 const runGame = () => {
-  let gameFinished = false;
   const calledNumbers = []
   const scores = []
 
@@ -77,8 +76,3 @@ const finalScores = runGame();
 
 console.log(`Part 1: ${finalScores[0]}`)
 console.log(`Part 2: ${finalScores[finalScores.length-1]}`)
-
-/*
-NOT:
-7168, 18171 -- Too low
-*/
