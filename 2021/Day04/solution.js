@@ -20,8 +20,8 @@ const checkBoard = (board, calledNumbers) => {
     const checkCol = board.slice(i*5, (i*5)+5)
 
     // Row
-    const checkRow = board.filter((e,i) => {
-      return (i + 5) % 5 === 0;
+    const checkRow = board.filter((e,idx) => {
+      return (idx + 5) % 5 === i;
     })
 
     // Compare to called numbers
@@ -52,20 +52,33 @@ const boardScore = (board, calledNumbers) => {
 const runGame = () => {
   let gameFinished = false;
   const calledNumbers = []
-  
-  while (!gameFinished) {
+  const scores = []
+
+  while (scores.length < boards.length) {
     calledNumbers.push(nums.shift())
 
-    for (const board of boards) {
-      let boardWins = checkBoard(board, calledNumbers);
-
-      if (boardWins === true) {
-        const score = boardScore(board, calledNumbers);
-        console.log(`Part 1: ${score}`)
-        gameFinished = true;
-        return;
+    for (let i=0; i < boards.length; i++) {
+      const board = boards[i]
+      if (board !== null) {
+        let boardWins = checkBoard(board, calledNumbers);
+  
+        if (boardWins === true) {
+          const score = boardScore(board, calledNumbers);
+          scores.push(score);
+          boards[i] = null;
+        }
       }
     }
   }
+  return scores;
 }
-runGame();
+
+const finalScores = runGame();
+
+console.log(`Part 1: ${finalScores[0]}`)
+console.log(`Part 2: ${finalScores[finalScores.length-1]}`)
+
+/*
+NOT:
+7168, 18171 -- Too low
+*/
