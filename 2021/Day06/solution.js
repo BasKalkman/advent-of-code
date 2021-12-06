@@ -25,4 +25,5 @@ for(let i = 0; i < 256; i++) {
   school.length = 0;
   school.push(...tempSchool)
 }
+
 console.log(`Part 2: ${school.reduce((a,c) => a+c, 0)}`)
