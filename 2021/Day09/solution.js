@@ -27,7 +27,8 @@ for (const [k, v] of [...heightMap.entries()]) {
     }
 
     // This doesn't
-    // TODO: WHY?
+    // WHY? - If heightMap.get returns a 0, it becomes null instead.
+    // Fix by omitting the null and just deal with the get being undefined 
     /*
     const neighborVal = heightMap.get(`${y+dy}x${x+dx}`) || null;
     if (neighborVal !== null && neighborVal <= v) {
