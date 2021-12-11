@@ -13,7 +13,9 @@ data.map((e,y) => {
 
 // Run rounds
 let flashCount = 0;
-for (let i = 0; i<100; i++) {
+let allFlashed = false;
+let i = 0;
+while (!allFlashed) {
   const flashStack = [];
   for (octopus of octopi) {
     let flash = octopus.newStep();
@@ -32,6 +34,20 @@ for (let i = 0; i<100; i++) {
       };
     }
   }
-}
 
-console.log(flashCount)
+  i++
+
+  const noFlashThisRound = octopi.filter(e => {
+    return e.hasFlashed === false;
+  })
+  if (noFlashThisRound.length === 0) {
+    allFlashed = true
+    console.log(`Part 2: ${i}`)
+  }
+
+
+  // For part 1
+  if (i === 99) {
+    console.log(`Part 1: ${flashCount}`)
+  }
+}
