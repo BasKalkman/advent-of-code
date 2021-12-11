@@ -47,7 +47,7 @@ while (!allFlashed) {
 
 
   // For part 1
-  if (i === 99) {
+  if (i === 100) {
     console.log(`Part 1: ${flashCount}`)
   }
 }
