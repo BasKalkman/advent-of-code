@@ -67,7 +67,14 @@ const runFold = (instruction) => {
     }
 }
 
-// Part 1
-runFold(folds[0])
-const part1 = grid.flat(2).reduce((a, c) => c === '#' ? a + 1 : a, 0)
-console.log(part1);
+// Run it
+for (let i = 0; i < folds.length; i++) {
+    runFold(folds[i])
+
+    if (i === 0) {
+        const part1 = grid.flat(2).reduce((a, c) => c === '#' ? a + 1 : a, 0)
+        console.log(part1);
+    }
+}
+
+grid.map(e => console.log(e.join('').replace(/\./g, ' ')))
