@@ -1,5 +1,6 @@
 const fs = require('fs');
 const data = fs.readFileSync('./input.txt', 'utf-8')
+// const data = fs.readFileSync('./example.txt', 'utf-8')
 const [x1,x2,y1,y2] = data.match(/-?\d+/g).map(Number)
 
 const checkInTarget = (x, y) => {
@@ -39,8 +40,8 @@ const checkTrajectory = (initialX,initialY) => {
 }
 
 const trajectories = []
-for (let x = 0; x < 250; x++) {
-  for (let y = -50; y < 200; y++) {
+for (let x = 0; x < 300; x++) {
+  for (let y = -200; y < 500; y++) {
     trajectories.push(checkTrajectory(x,y))
   }
 }
@@ -50,3 +51,6 @@ const highestTrajectory = trajectories.filter(e => e.hits).reduce((a,c) => {
   return a
 }, null)
 console.log(highestTrajectory)
+
+const numTrajectories = trajectories.filter(e => e.hits)
+console.log(numTrajectories.length)
