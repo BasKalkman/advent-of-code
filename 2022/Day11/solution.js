@@ -20,7 +20,8 @@ class Monkey {
         this.inspectionCount++;
         let object = this.items.shift();
         object = this.testObject(object);
-        object = Math.floor(object / 3);
+        // object = Math.floor(object / 3); // Part 1
+        object = object % supermod; // Part 2
 
         if (object % this.test === 0) {
             monkeys[this.trueMonkey].grab(object);
@@ -47,8 +48,9 @@ class Monkey {
 }
 
 const monkeys = data.map((e) => new Monkey(e));
+const supermod = monkeys.reduce((a, c) => a * c.test, 1); // Part 2
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10000; i++) {
     monkeys.map((e) => e.runTurn());
 }
 const inspectionCounts = monkeys.map((e) => e.inspectionCount).sort((a, b) => b - a);
