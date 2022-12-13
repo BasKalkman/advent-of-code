@@ -1,89 +1,46 @@
 const fs = require('fs');
-const data = fs.readFileSync('./test.txt', 'utf-8').split('\n');
-// const data = fs.readFileSync('./input.txt', 'utf-8').split('\n');
+// const data = fs.readFileSync('./test.txt', 'utf-8').split('\n');
+const data = fs.readFileSync('./input.txt', 'utf-8').split('\n');
 
-class Head {
-	constructor() {
-		this.x = 0;
-		this.y = 0;
-	}
-
-	move(dir) {
-		if (dir === 'U') this.y++;
-		if (dir === 'D') this.y--;
-		if (dir === 'L') this.x--;
-		if (dir === 'R') this.x++;
-	}
-
-	coords() {
-		return `x${this.x}y${this.y}`;
-	}
-}
+const head = {x: 0, y: 0}
 
 class Tail {
 	constructor() {
 		this.x = 0;
 		this.y = 0;
 		this.visited = new Set();
-		this.visited.add(this.coords());
+		this.visited.add(this.coordString())
 	}
 
-	coords() {
+	coordString() {
 		return `x${this.x}y${this.y}`;
 	}
 
-	isNextToHead(headCoords) {
-		const neighbors = [[-1,-1], [-1,0], [-1,1], [0, -1], [0,1], [1,-1], [1,0], [1,1]];
-		const neighborCoords = neighbors.map(e => {
-			const [x,y] = e;
-			return `x${this.x + x}y${this.y + y}`
-		})
-		return neighborCoords.includes(headCoords);
-	}
-
-	moveToHead(headCoords) {
-		const [x,y] = headCoords.match(/\d+/g).map(Number);
-
-		if (this.x === x) {
-			// Same row
-			x > this.x ? this.x++ : this.x--;
+	moveToHead(hx, hy) {
+		if (Math.abs(hx - this.x) > 1 || Math.abs(hy - this.y) > 1) {
+			if (this.x === hx) {
+				hy > this.y ? this.y++ : this.y--;
+			} else if (this.y === hy) {
+				hx > this.x ? this.x++ : this.x--;
+			} else {
+				hx > this.x ? this.x++ : this.x--;
+				hy > this.y ? this.y++ : this.y--;
+			}
+			this.visited.add(this.coordString());
 		}
-		if (this.y === y) {
-			// same column
-			y > this.y ? this.y++ : this.y--;
-		}
-		// Diagonal logic
-		if (x > this.x && y > this.y) {
-			this.x++;
-			this.y++;
-		}
-		if (x < this.x && y > this.y) {
-			this.x--;
-			this.y++;
-		}
-		if (x > this.x && y < this.y) {
-			this.x++;
-			this.y--;
-		}
-		if (x < this.x && y < this.y) {
-			this.x--;
-			this.y--;
-		}
-
-		this.visited.add(this.coords());
 	}
 }
-
-const head = new Head;
-const tail = new Tail;
+const tail = new Tail();
 
 for (const instruction of data) {
-	const [dir, num] = instruction.split(' ');
+	const [dir, num] = instruction.split(/\W/g);
 	for (let i = 0; i < parseInt(num); i++) {
-		head.move(dir);
-		if (!tail.isNextToHead(head.coords())) {
-			tail.moveToHead(head.coords());
-		}
-	}
+		if (dir === 'U') head.y++
+		if (dir === 'D') head.y--
+		if (dir === 'L') head.x--
+		if (dir === 'R') head.x++
+
+		tail.moveToHead(head.x, head.y);
+	}	
 }
 console.log(tail.visited.size);
