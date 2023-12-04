@@ -31,3 +31,10 @@ const part1 = games.reduce((a, c) => {
     return a;
 }, 0);
 console.log('Part 1: ', part1);
+
+// Part 2
+const part2 = games.reduce((a, c) => {
+    const power = c.red * c.green * c.blue;
+    return a + power;
+}, 0);
+console.log('Part 2: ', part2);
