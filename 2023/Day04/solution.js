@@ -5,31 +5,48 @@ const data = fs
     .split('\n')
     .map((e) => e.trim());
 
-// Part 1
-const double = (n) => {
-    if (n === 0) return 0;
-    let value = 1;
-    let x = 0;
-    while (x < n - 1) {
-        value += value;
-        x++;
+class Card {
+    constructor(left, right) {
+        this.left = left;
+        this.right = right;
+        this.overlap = this.right.filter((e) => this.left.includes(e)).length;
+        this.copies = 1;
     }
-    return value;
-};
+    addCopy(n) {
+        this.copies += n;
+    }
+    getValue() {
+        if (this.overlap === 0) return 0;
+        let value = 1;
+        let x = 0;
+        while (x < this.overlap - 1) {
+            value += value;
+            x++;
+        }
+        return value;
+    }
+}
 
-const part1 = data
-    .map((e) => {
-        const [left, right] = e.split('|').map((el) =>
-            el
-                .trim()
-                .split(' ')
-                .filter((item) => item !== '')
-        );
-        console.log(left, right);
-        const overlap = right.filter((el) => left.includes(el));
-        return overlap.length;
-    })
-    .reduce((a, c) => {
-        return a + double(c);
-    }, 0);
-console.log(part1);
+// Part 1
+
+const cards = data.map((e) => {
+    const [left, right] = e.split('|').map((el) =>
+        el
+            .trim()
+            .split(' ')
+            .filter((item) => item !== '')
+    );
+    return new Card(left, right);
+});
+
+const part1 = cards.reduce((a, c) => a + c.getValue(), 0);
+console.log('Part 1: ', part1);
+
+// Part 2
+cards.map((e, idx) => {
+    for (let x = 0; x < e.overlap; x++) {
+        cards[idx + x + 1].addCopy(e.copies);
+    }
+});
+const part2 = cards.reduce((a, c) => a + c.copies, 0);
+console.log('Part 2: ', part2);
